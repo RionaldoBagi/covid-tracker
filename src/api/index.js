@@ -1,26 +1,42 @@
-import axios from "axios"
+import axios from "axios";
 
-const url = "https://covid19.mathdro.id/api"
+const urlGlobal = "https://covid19.mathdro.id/api";
+const urlIndonesia = "https://indonesia-covid-19.mathdro.id/api";
 
-export const fetchData = async (countries) => {
-    let changeableUrl = url;
-  
-    if (countries) {
-      changeableUrl = `${url}/countries/${countries}`;
-    }
-    try { const { data:{confirmed,recovered,deaths,} } = await axios.get(changeableUrl);
-    return { confirmed, recovered, deaths};
-    }
-    catch (error) {return error;}
-  };
-  export const fetchCountries = async () => {
-    try { const { data: { countries } } = await axios.get(`${url}/countries`);
-    return countries.map((countries) => countries.name);
-    }
-    catch (error) { return error;}
-  };
-  export const fetchFirstCountries = () => {
-    try { return fetch(`${url}/countries`).then(res => res.json()).then(data => data.countries[0].name)
-    }
-    catch (error) {return error;}
-}
+export const tarikDataGlobal = async () => {
+  try {
+    const {
+      data: { confirmed, recovered, deaths },
+    } = await axios.get(urlGlobal);
+    return { confirmed, recovered, deaths };
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const tarikDataIndo = async () => {
+  try {
+    const {
+      data: { jumlahKasus: confirmed, meninggal: deaths, sembuh: recovered },
+    } = await axios.get(urlIndonesia);
+    return { confirmed, recovered, deaths };
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const tarikDataProvinsi = async () => {
+  try {
+    const {
+      data: { data: provinces },
+    } = await axios.get(`${urlIndonesia}/provinsi`);
+    return provinces.map((provinsi) => ({
+      namaProvinsi: provinsi.provinsi,
+      confirmed: provinsi.kasusPosi,
+      deaths: provinsi.kasusMeni,
+      recovered: provinsi.kasusSemb,
+    }));
+  } catch (err) {
+    console.log(err);
+  }
+};

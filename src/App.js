@@ -1,35 +1,55 @@
-import React from 'react'
-
-import { Cards, CountryPicker } from './components'
-import { fetchData, fetchFirstCountries } from './api'
-
+import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { tarikDataGlobal, tarikDataIndo } from "./api";
+import { Cards, Table } from "./components";
 
 class App extends React.Component {
-    state = {
-        data:{},dataCountry:{},countries: '',
-    };
-    async componentDidMount() {
-        const fetchedData = await fetchData()
-        this.setState({ data: fetchedData })
-        const Countries = await fetchFirstCountries()
-        const Data = await fetchData(Countries)
-        this.setState({ dataCountry: Data,countries:Countries})
-    }
-    handleCountryChange = async (country) => {
-        const fetchedData = await fetchData(country)
-        this.setState({ dataCountry: fetchedData, country: country })
-    };
+  state = {
+    dataGlobal: {},
+    dataIndonesia: {},
+  };
 
+  async componentDidMount() {
+    const dataGlobal = await tarikDataGlobal();
+    const dataIndonesia = await tarikDataIndo();
+    this.setState({ dataGlobal: dataGlobal });
+    this.setState({ dataIndonesia: dataIndonesia });
+  }
 
-    render() {
-        return (
-            <div>
-                <Cards data={this.state.data}/>
-                <CountryPicker handleCountryChange={this.handleCountryChange}/>
-                <Cards data={this.state.dataCountry} country={this.state.country}/>
-            </div>
-        )
-    };
-};
+  render() {
+    return (
+      <div>
+        <Router>
+          <h1>Covid Tracker</h1>
+          <ul>
+            <li>
+              <Link to="/">Global</Link>
+            </li>
+            <li>
+              <Link to="/indonesia">Indonesia</Link>
+            </li>
+            <li>
+              <Link to="/provinsi">Per Provinsi</Link>
+            </li>
+          </ul>
+          <Switch>
+            <Route path="/indonesia">
+              <Cards
+                data={this.state.dataIndonesia}
+                text="Jumlah Kasus Indonesia"
+              />
+            </Route>
+            <Route path="/provinsi">
+              <Table />
+            </Route>
+            <Route path="/">
+              <Cards data={this.state.dataGlobal} text="Jumlah Kasus Dunia" />
+            </Route>
+          </Switch>
+        </Router>
+      </div>
+    );
+  }
+}
 
-export default App
+export default App;
