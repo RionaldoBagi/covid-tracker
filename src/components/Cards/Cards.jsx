@@ -1,43 +1,52 @@
 import React from "react";
-import {Card,CardTitle} from "reactstrap";
 import styles from "./Cards.module.css";
 import NumberFormat from "react-number-format";
 
-const Cards = ({ data: { confirmed, recovered, deaths }, country }) => {
+const Cards = ({ data: { confirmed, deaths, recovered }, text }) => {
   if (!confirmed) {
-    return "Loading.. please wait";
+    return "";
   }
-
   return (
-    <div className={styles.container}>
-      <br />
-      <h2>{country ? `Negara: ${country}` : `Global`}</h2>
-      <Card body className="text-center"
-      style= {{borderRadius: 20, backgroundColor: "Grey"}}>
-        <CardTitle><h5>Positif</h5></CardTitle>
-        <h5>
-        <NumberFormat
-          value={confirmed.value}
-          thousandSeparator={true}
-          displayType={"text"}/>
-          </h5>
-      </Card>
-      <Card body className="text-center"
-      style= {{borderRadius: 20, backgroundColor: "Green"}}>
-        <CardTitle><h5>Sembuh</h5></CardTitle>
-        <h5><NumberFormat
-          value={confirmed.value}
-          thousandSeparator={true}
-          displayType={"text"}/></h5>
-      </Card>
-      <Card body className="text-center"
-      style= {{borderRadius: 20, backgroundColor: "Red"}}>
-        <CardTitle><h5>Meninggal</h5></CardTitle>
-        <h5><NumberFormat
-          value={confirmed.value}
-          thousandSeparator={true}
-          displayType={"text"}/></h5>
-      </Card>
+    <div>
+      <h2>{text}</h2>
+      <div className={styles.row}>
+        <div className={styles.column}>
+          <div className={styles.positif}>
+            <h3>Positif</h3>
+            <p>
+              <NumberFormat
+                value={confirmed.value ? confirmed.value : confirmed}
+                thousandSeparator={true}
+                displayType={"text"}
+              />
+            </p>
+          </div>
+        </div>
+        <div className={styles.column}>
+          <div className={styles.meninggal}>
+            <h3>Meninggal</h3>
+            <p>
+              <NumberFormat
+                value={deaths.value ? deaths.value : deaths}
+                thousandSeparator={true}
+                displayType={"text"}
+              />
+            </p>
+          </div>
+        </div>
+        <div className={styles.column}>
+          <div className={styles.sembuh}>
+            <h3>Sembuh</h3>
+            <p>
+              <NumberFormat
+                value={recovered.value ? recovered.value : recovered}
+                thousandSeparator={true}
+                displayType={"text"}
+              />
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
