@@ -9,8 +9,8 @@ export const tarikDataGlobal = async () => {
       data: { confirmed, recovered, deaths },
     } = await axios.get(urlGlobal);
     return { confirmed, recovered, deaths };
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -20,8 +20,8 @@ export const tarikDataIndo = async () => {
       data: { jumlahKasus: confirmed, meninggal: deaths, sembuh: recovered },
     } = await axios.get(urlIndonesia);
     return { confirmed, recovered, deaths };
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -36,7 +36,7 @@ export const tarikDataProvinsi = async () => {
       deaths: provinsi.kasusMeni,
       recovered: provinsi.kasusSemb,
     }));
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 };
