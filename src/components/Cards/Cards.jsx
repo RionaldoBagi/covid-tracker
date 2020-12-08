@@ -1,5 +1,5 @@
 import React from "react";
-import {Card,CardTitle} from "reactstrap";
+import {Card} from "reactstrap";
 import styles from "./Cards.module.css";
 import NumberFormat from "react-number-format";
 
