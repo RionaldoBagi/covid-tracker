@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { tarikDataGlobal, tarikDataIndo } from "./api";
-import { Cards, Table } from "./components";
+import { DataGlobal, DataIndonesia } from "./api";
+import { Cards, Table } from "./Component";
 
 class App extends React.Component {
   state = {
@@ -10,8 +10,8 @@ class App extends React.Component {
   };
 
   async componentDidMount() {
-    const dataGlobal = await tarikDataGlobal();
-    const dataIndonesia = await tarikDataIndo();
+    const dataGlobal = await DataGlobal();
+    const dataIndonesia = await DataIndonesia();
     this.setState({ dataGlobal: dataGlobal });
     this.setState({ dataIndonesia: dataIndonesia });
   }
@@ -51,7 +51,5 @@ class App extends React.Component {
     );
   }
 }
-
-
 
 export default App;
